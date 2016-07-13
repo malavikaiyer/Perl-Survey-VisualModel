@@ -1,0 +1,6 @@
+Malavika Iyer
+
+Files
+1. cell-phones.csv-> Input CSV file
+2. myTranslator.pl-> Perl program
+3. cell-phones_W1188798.html-> Output HTML file generated after running the Perl program

@@ -1,0 +1,82 @@
+
+
+@mixin keyframes($percent, $radio) {
+  @keyframes dash#{$percent} {
+    0% {
+      stroke-dashoffset: 1000;
+      stroke-dasharray: 1000;
+    }
+    /*35% {
+      stroke-dasharray: 500;
+    }
+    70% {
+      stroke-dasharray: 1000;
+    }*/
+    100% {
+      stroke-dashoffset: calcOffset(100 - $percent, $radio);
+    }
+  }
+}
+
+@function calcOffset($percent, $radio: 100) {
+  $circunference: 2 * 3.1416 * $radio;
+  $max: 1000 - $circunference;
+  @return (($circunference * $percent) / 100) + $max;
+}
+ 
+body, html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.Container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  
+  /*&:before {
+    content: '';
+    width: 1px;
+    height: 100%;
+    background: lightgray;
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+  &:after {
+    content: '';
+    width: 100%;
+    height: 1px;
+    background: lightgray;
+    position: absolute;
+    top: 50%; left: 0;
+    transform: translateY(-50%);
+    z-index: 10;
+  }*/
+}
+svg {
+  position: absolute; 
+  top: 50%; left: 50%; 
+  transform: translate(-50%, -50%); 
+  height:100%;
+}
+svg circle {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation-direction: linear;
+  animation-iteration-count: alternate;
+  animation-fill-mode: forwards;
+}
+
+$circles: (40, 70, 90);
+@each $i in $circles {
+  $index: index($circles, $i);
+  $radius: 100 - (($index - 1) * 15);
+  @include keyframes($i, $radius);
+  #ex#{$index} circle {
+    animation-name: dash#{$i};
+    animation-duration: ($index*500) + 0ms;
+  }
+}
+
